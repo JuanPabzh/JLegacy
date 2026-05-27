@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JLegacy — Admin</title>
+  <link rel="stylesheet" href="css/gestion.css">
+</head>
+<body>
+
+<!-- Mobile toggle -->
+<button class="menu-toggle" id="menuToggle">
+  <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="assets/logo-general.png" alt="JLegacy">
+      <span class="sidebar-logo-text">Admin</span>
+    </div>
+
+    <div class="sidebar-label">Menú</div>
+
+    <a class="nav-item active" data-section="sec-dashboard" data-title="Dashboard">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </a>
+
+    <a class="nav-item" data-section="sec-productos" data-title="Productos">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Productos
+    </a>
+
+    <a class="nav-item" data-section="sec-config" data-title="Configuración">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Configuración
+    </a>
+
+    <div class="sidebar-footer">JLegacy © 2025</div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <div class="topbar">
+      <div class="page-title" id="pageTitle">Dashboard</div>
+    </div>
+
+    <!-- ── DASHBOARD ── -->
+    <section class="section active" id="sec-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total productos</div>
+          <div class="stat-value" id="statTotal">—</div>
+          <div class="stat-sub">En ambas tiendas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">JLegacy Caps</div>
+          <div class="stat-value" id="statCaps">—</div>
+          <div class="stat-sub">Gorras</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">JLegacy Tech</div>
+          <div class="stat-value" id="statTech">—</div>
+          <div class="stat-sub">Dispositivos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Disponibles</div>
+          <div class="stat-value" id="statStock">—</div>
+          <div class="stat-sub">En stock</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-header">
+          <span class="table-title">Accesos rápidos</span>
+        </div>
+        <div style="padding:20px;display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="caps.html" target="_blank" class="btn btn-outline">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Ver tienda Caps
+          </a>
+          <a href="tech.html" target="_blank" class="btn btn-outline">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Ver tienda Tech
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PRODUCTOS ── -->
+    <section class="section" id="sec-productos">
+      <div class="table-wrap">
+        <div class="table-header">
+          <span class="table-title">Todos los productos</span>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <input class="search-input" id="searchInput" placeholder="Buscar producto...">
+            <button class="btn btn-gold" id="btnNuevo">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Nuevo
+            </button>
+          </div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Foto</th>
+                <th>Nombre</th>
+                <th>Tienda</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="productosBody">
+              <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--gray)">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONFIGURACIÓN ── -->
+    <section class="section" id="sec-config">
+      <div class="config-grid">
+        <div class="config-card">
+          <div class="config-card-title">Contacto</div>
+          <div class="form-group">
+            <label class="form-label">Número WhatsApp</label>
+            <input class="form-input" id="inputWA" placeholder="573244083274" type="tel">
+          </div>
+        </div>
+
+        <div class="config-card">
+          <div class="config-card-title">Redes Sociales</div>
+          <div class="form-group">
+            <label class="form-label">Instagram Caps</label>
+            <input class="form-input" id="inputIGCaps" placeholder="jlegacycaps_">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Instagram Tech</label>
+            <input class="form-input" id="inputIGTech" placeholder="jlegacytech_">
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <button class="btn btn-gold" id="btnGuardarConfig">
+          <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Guardar configuración
+        </button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── DRAWER PRODUCTO ── -->
+<div class="drawer-overlay" id="drawerOverlay">
+  <div class="drawer">
+    <div class="drawer-header">
+      <div class="drawer-title" id="drawerTitle">Nuevo Producto</div>
+      <button class="drawer-close" id="drawerClose">✕</button>
+    </div>
+
+    <div class="drawer-body">
+      <form id="productoForm" onsubmit="return false;">
+
+        <div class="form-group">
+          <label class="form-label">Nombre *</label>
+          <input class="form-input" id="inputNombre" placeholder="Ej: Classic Crown" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Tienda *</label>
+            <select class="form-select" id="inputTienda">
+              <option value="caps">JLegacy Caps</option>
+              <option value="tech">JLegacy Tech</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Precio COP *</label>
+            <input class="form-input" id="inputPrecio" type="number" placeholder="85000" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Categoría *</label>
+          <input class="form-input" id="inputCategoria" placeholder="Ej: Snapback / Audífonos">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Descripción</label>
+          <textarea class="form-textarea" id="inputDescripcion" placeholder="Descripción del producto..."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Disponible</label>
+            <div class="form-toggle">
+              <div class="toggle-track on" id="stockToggle">
+                <div class="toggle-thumb"></div>
+              </div>
+              <span class="toggle-text">En stock</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nuevo</label>
+            <div class="form-toggle">
+              <div class="toggle-track" id="nuevoToggle">
+                <div class="toggle-thumb"></div>
+              </div>
+              <span class="toggle-text">Marcar como nuevo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Foto del producto</label>
+          <div class="img-upload-area">
+            <input type="file" id="imgInput" accept="image/*">
+            <svg class="img-upload-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <div class="img-upload-text">Toca para subir una foto</div>
+          </div>
+          <img class="img-preview" id="imgPreview" src="" alt="Preview">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Colores disponibles</label>
+          <div class="colors-input-wrap" id="colorChips"></div>
+          <div class="color-add-row">
+            <input type="color" class="color-picker-input" id="colorPicker" value="#1a1a1a">
+            <button type="button" class="btn btn-outline btn-sm" id="btnAddColor">+ Agregar color</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="drawer-footer">
+      <button class="btn btn-outline" onclick="closeDrawer()">Cancelar</button>
+      <button class="btn btn-gold" id="btnGuardar">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="js/gestion.js"></script>
+</body>
+</html>
