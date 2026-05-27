@@ -1,154 +1,104 @@
-const products = [
-  {
-    id: 1,
-    name: 'Classic Crown',
-    style: 'Snapback',
-    price: 85000,
-    colors: ['#1a1a1a', '#ffffff', '#C9922A'],
-    stock: true,
-    isNew: true,
-    img: 'assets/cap-placeholder.png',
-    desc: 'La gorra que define el estilo. Visera plana, cierre snapback ajustable y bordado premium del logo JLegacy.'
-  },
-  {
-    id: 2,
-    name: 'Legacy Trucker',
-    style: 'Trucker',
-    price: 75000,
-    colors: ['#1a1a1a', '#4a3728'],
-    stock: true,
-    isNew: false,
-    img: 'assets/cap-placeholder.png',
-    desc: 'Estructura delantera rígida con malla trasera. Fresca, cómoda y con el sello JLegacy.'
-  },
-  {
-    id: 3,
-    name: 'Soft Legacy',
-    style: 'Dad Hat',
-    price: 70000,
-    colors: ['#f5f0eb', '#1a1a1a', '#8B6010'],
-    stock: true,
-    isNew: false,
-    img: 'assets/cap-placeholder.png',
-    desc: 'Tela suave, visera curva y fit relajado. Para los que llevan el legacy con calma.'
-  },
-  {
-    id: 4,
-    name: 'Gold Edition',
-    style: 'Snapback',
-    price: 110000,
-    colors: ['#C9922A', '#1a1a1a'],
-    stock: true,
-    isNew: true,
-    img: 'assets/cap-placeholder.png',
-    desc: 'Edición limitada. Detalles dorados, bordado metálico y acabado premium.'
-  },
-  {
-    id: 5,
-    name: 'Street Trucker',
-    style: 'Trucker',
-    price: 72000,
-    colors: ['#2d4a2d', '#1a1a1a'],
-    stock: false,
-    isNew: false,
-    img: 'assets/cap-placeholder.png',
-    desc: 'El estilo de la calle. Malla trasera y logo bordado al frente.'
-  },
-  {
-    id: 6,
-    name: 'Crown Dad',
-    style: 'Dad Hat',
-    price: 68000,
-    colors: ['#3a3a5c', '#1a1a1a', '#ffffff'],
-    stock: true,
-    isNew: false,
-    img: 'assets/cap-placeholder.png',
-    desc: 'Minimalismo con carácter. La corona JLegacy bordada en hilo dorado.'
-  }
-];
-
+const SUPABASE_URL = 'https://raslnnnqwwilhefygjrm.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhc2xubm5xd3dpbGhlZnlnanJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MTI2NTUsImV4cCI6MjA5NTQ4ODY1NX0.Z9X08leNDkmEuEjuDskBkKuCjN8mGR0Fg4wbj15eaH4';
+ 
+let WA_NUMBER = '';
+ 
+async function cargarConfiguracion() {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/configuracion?select=*`, {
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+  });
+  const data = await res.json();
+  if (data[0]) WA_NUMBER = data[0].whatsapp;
+}
+ 
+async function cargarProductos() {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?tienda=eq.caps&select=*`, {
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+  });
+  return await res.json();
+}
+ 
 let state = {
   style: 'all',
   color: null,
   sort: 'default',
   onlyStock: false
 };
-
-const WA_NUMBER = '573244083274'; // ← cambia por tu número real
-
+ 
 function buildWALink(product, selectedColor) {
   const colorName = selectedColor || 'sin especificar';
-  const msg = `Hola! Me interesa la gorra *${product.name}* (${product.style}) en color ${colorName}. Precio: $${formatPrice(product.price)} COP. ¿Está disponible?`;
+  const msg = `Hola! Me interesa la gorra *${product.nombre}* (${product.categoria}) en color ${colorName}. Precio: $${formatPrice(product.precio)} COP. ¿Está disponible?`;
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
-
+ 
 function formatPrice(n) {
   return n.toLocaleString('es-CO');
 }
-
-function renderProducts() {
+ 
+function renderProducts(products) {
   const grid = document.getElementById('productsGrid');
   const emptyState = document.getElementById('emptyState');
   const countEl = document.getElementById('resultsCount');
-
+ 
   let filtered = [...products];
-
+ 
   if (state.style !== 'all') {
-    filtered = filtered.filter(p => p.style === state.style);
+    filtered = filtered.filter(p => p.categoria === state.style);
   }
-
+ 
   if (state.color) {
-    filtered = filtered.filter(p => p.colors.includes(state.color));
+    filtered = filtered.filter(p => p.colores && p.colores.includes(state.color));
   }
-
+ 
   if (state.onlyStock) {
     filtered = filtered.filter(p => p.stock);
   }
-
-  if (state.sort === 'asc')  filtered.sort((a, b) => a.price - b.price);
-  if (state.sort === 'desc') filtered.sort((a, b) => b.price - a.price);
-  if (state.sort === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
-
+ 
+  if (state.sort === 'asc')  filtered.sort((a, b) => a.precio - b.precio);
+  if (state.sort === 'desc') filtered.sort((a, b) => b.precio - a.precio);
+  if (state.sort === 'name') filtered.sort((a, b) => a.nombre.localeCompare(b.nombre));
+ 
   countEl.textContent = `${filtered.length} producto${filtered.length !== 1 ? 's' : ''}`;
-
-  const cards = grid.querySelectorAll('.product-card');
-  cards.forEach(c => c.remove());
-
+ 
+  grid.querySelectorAll('.product-card').forEach(c => c.remove());
+ 
   if (filtered.length === 0) {
     emptyState.classList.add('visible');
     return;
   }
-
+ 
   emptyState.classList.remove('visible');
-
+ 
   filtered.forEach((product, i) => {
     const card = document.createElement('div');
     card.className = 'product-card' + (product.stock ? '' : ' out-of-stock');
     card.style.animationDelay = `${i * 0.07}s`;
-
-    const colorDots = product.colors.map(c =>
-      `<div class="card-color-dot" style="background:${c}"></div>`
-    ).join('');
-
-    const badge = product.isNew
+ 
+    const colorDots = product.colores
+      ? product.colores.map(c => `<div class="card-color-dot" style="background:${c}"></div>`).join('')
+      : '';
+ 
+    const badge = product.es_nuevo
       ? `<div class="card-badge badge-new">Nuevo</div>`
       : !product.stock
       ? `<div class="card-badge badge-out">Agotado</div>`
       : '';
-
+ 
+    const imgSrc = product.imagen_url || 'assets/cap-placeholder.jpg';
+ 
     card.innerHTML = `
       ${badge}
       <div class="card-img-wrap">
-        <img src="${product.img}" alt="${product.name}" onerror="this.src='assets/cap-placeholder.png'">
+        <img src="${imgSrc}" alt="${product.nombre}" onerror="this.src='assets/cap-placeholder.jpg'">
         <div class="card-overlay">
           <button class="quick-view-btn">Ver detalle</button>
         </div>
       </div>
       <div class="card-info">
-        <div class="card-style-tag">${product.style}</div>
-        <div class="card-name">${product.name}</div>
+        <div class="card-style-tag">${product.categoria}</div>
+        <div class="card-name">${product.nombre}</div>
         <div class="card-bottom">
-          <div class="card-price">$${formatPrice(product.price)}</div>
+          <div class="card-price">$${formatPrice(product.precio)}</div>
           <div class="card-colors">${colorDots}</div>
         </div>
         <a class="card-wa" href="${buildWALink(product)}" target="_blank" rel="noopener">
@@ -157,35 +107,37 @@ function renderProducts() {
         </a>
       </div>
     `;
-
+ 
     card.querySelector('.quick-view-btn').addEventListener('click', (e) => {
       e.stopPropagation();
       openModal(product);
     });
-
+ 
     card.querySelector('.card-img-wrap').addEventListener('click', () => openModal(product));
-
+ 
     grid.insertBefore(card, emptyState);
   });
 }
-
+ 
 let selectedModalColor = null;
-
+ 
 function openModal(product) {
-  selectedModalColor = product.colors[0];
-
-  document.getElementById('modalStyle').textContent = product.style;
-  document.getElementById('modalName').textContent = product.name;
-  document.getElementById('modalPrice').textContent = `$${formatPrice(product.price)} COP`;
-  document.getElementById('modalDesc').textContent = product.desc;
-  document.getElementById('modalImg').src = product.img;
-  document.getElementById('modalImg').alt = product.name;
-
+  selectedModalColor = product.colores ? product.colores[0] : null;
+ 
+  document.getElementById('modalStyle').textContent = product.categoria;
+  document.getElementById('modalName').textContent = product.nombre;
+  document.getElementById('modalPrice').textContent = `$${formatPrice(product.precio)} COP`;
+  document.getElementById('modalDesc').textContent = product.descripcion;
+  document.getElementById('modalImg').src = product.imagen_url || 'assets/cap-placeholder.jpg';
+  document.getElementById('modalImg').alt = product.nombre;
+ 
   const colorsEl = document.getElementById('modalColors');
-  colorsEl.innerHTML = product.colors.map((c, i) =>
-    `<div class="modal-color${i === 0 ? ' active' : ''}" style="background:${c}" data-color="${c}"></div>`
-  ).join('');
-
+  colorsEl.innerHTML = product.colores
+    ? product.colores.map((c, i) =>
+        `<div class="modal-color${i === 0 ? ' active' : ''}" style="background:${c}" data-color="${c}"></div>`
+      ).join('')
+    : '';
+ 
   colorsEl.querySelectorAll('.modal-color').forEach(dot => {
     dot.addEventListener('click', () => {
       colorsEl.querySelectorAll('.modal-color').forEach(d => d.classList.remove('active'));
@@ -194,38 +146,36 @@ function openModal(product) {
       updateModalWA(product);
     });
   });
-
+ 
   updateModalWA(product);
-
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-
+ 
 function updateModalWA(product) {
-  const btn = document.getElementById('modalWA');
-  btn.href = buildWALink(product, selectedModalColor);
+  document.getElementById('modalWA').href = buildWALink(product, selectedModalColor);
 }
-
+ 
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('open');
   document.body.style.overflow = '';
 }
-
+ 
 document.getElementById('modalOverlay').addEventListener('click', e => {
   if (e.target === document.getElementById('modalOverlay')) closeModal();
 });
-
+ 
 document.getElementById('modalClose').addEventListener('click', closeModal);
-
+ 
 document.querySelectorAll('.pill').forEach(pill => {
   pill.addEventListener('click', () => {
     document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
     pill.classList.add('active');
     state.style = pill.dataset.style;
-    renderProducts();
+    renderProducts(window._products || []);
   });
 });
-
+ 
 document.querySelectorAll('.color-dot').forEach(dot => {
   dot.addEventListener('click', () => {
     if (dot.classList.contains('active')) {
@@ -236,20 +186,27 @@ document.querySelectorAll('.color-dot').forEach(dot => {
       dot.classList.add('active');
       state.color = dot.dataset.color;
     }
-    renderProducts();
+    renderProducts(window._products || []);
   });
 });
-
+ 
 document.getElementById('sortSelect').addEventListener('change', e => {
   state.sort = e.target.value;
-  renderProducts();
+  renderProducts(window._products || []);
 });
-
+ 
 const toggleTrack = document.getElementById('stockToggle');
 toggleTrack.addEventListener('click', () => {
   state.onlyStock = !state.onlyStock;
   toggleTrack.classList.toggle('on', state.onlyStock);
-  renderProducts();
+  renderProducts(window._products || []);
 });
-
-renderProducts();
+ 
+async function init() {
+  await cargarConfiguracion();
+  const products = await cargarProductos();
+  window._products = products;
+  renderProducts(products);
+}
+ 
+init();
