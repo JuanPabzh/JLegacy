@@ -1,5 +1,6 @@
 const SUPABASE_URL = 'https://raslnnnqwwilhefygjrm.supabase.co';
-
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhc2xubm5xd3dpbGhlZnlnanJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MTI2NTUsImV4cCI6MjA5NTQ4ODY1NX0.Z9X08leNDkmEuEjuDskBkKuCjN8mGR0Fg4wbj15eaH4';
+ 
 let WA_NUMBER = '';
  
 async function cargarConfiguracion() {
@@ -7,7 +8,15 @@ async function cargarConfiguracion() {
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
   });
   const data = await res.json();
-  if (data[0]) WA_NUMBER = data[0].whatsapp;
+  if (data[0]) {
+    WA_NUMBER = data[0].whatsapp;
+    document.querySelectorAll('.ig-link').forEach(a => {
+      a.href = `https://instagram.com/${data[0].instagram_caps}`;
+    });
+    document.querySelectorAll('.wa-link').forEach(a => {
+      a.href = `https://wa.me/${data[0].whatsapp}`;
+    });
+  }
 }
  
 async function cargarProductos() {
