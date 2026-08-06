@@ -203,7 +203,7 @@ document.getElementById('btnGuardar').addEventListener('click', async () => {
   const stock = document.getElementById('stockToggle').classList.contains('on');
   const es_nuevo = document.getElementById('nuevoToggle').classList.contains('on');
 
-  if (!nombre || !precio || !tienda || !categoria) {
+  if (!nombre || !precio || !tienda) {
     showToast('Completa los campos obligatorios', true);
     return;
   }
