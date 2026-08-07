@@ -216,7 +216,6 @@ document.getElementById('btnGuardar').addEventListener('click', async () => {
     categoria,
     stock,
     es_nuevo,
-    colores: selectedColors,
     imagen_url: uploadedImageUrl
   };
 
@@ -273,31 +272,6 @@ document.getElementById('imgInput').addEventListener('change', async e => {
     showToast('Error al subir imagen', true);
   }
 });
-
-// ── COLORES ──
-document.getElementById('btnAddColor').addEventListener('click', () => {
-  const color = document.getElementById('colorPicker').value;
-  if (!selectedColors.includes(color)) {
-    selectedColors.push(color);
-    renderColorChips();
-  }
-});
-
-function renderColorChips() {
-  const wrap = document.getElementById('colorChips');
-  wrap.innerHTML = selectedColors.map((c, i) => `
-    <div class="color-chip">
-      <div class="color-chip-dot" style="background:${c}"></div>
-      <span>${c}</span>
-      <span class="color-chip-remove" onclick="removeColor(${i})">✕</span>
-    </div>
-  `).join('');
-}
-
-function removeColor(i) {
-  selectedColors.splice(i, 1);
-  renderColorChips();
-}
 
 // ── TOGGLES DEL FORM ──
 document.getElementById('stockToggle').addEventListener('click', function() {
