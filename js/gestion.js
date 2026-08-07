@@ -297,7 +297,7 @@ document.getElementById('btnGuardarConfig').addEventListener('click', async () =
   const instagram_style = document.getElementById('inputIGStyle').value.trim();
   const instagram_tech = document.getElementById('inputIGTech').value.trim();
 
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/configuracion?id=eq.1`, {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/configuracion`, {
     method: 'PATCH',
     headers: HEADERS,
     body: JSON.stringify({ whatsapp, instagram_style, instagram_tech })
