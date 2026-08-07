@@ -130,9 +130,7 @@ document.getElementById('drawerClose').addEventListener('click', closeDrawer);
 function resetForm() {
   document.getElementById('productoForm').reset();
   editingId = null;
-  selectedColors = [];
   uploadedImageUrl = null;
-  renderColorChips();
   document.getElementById('imgPreview').style.display = 'none';
   document.getElementById('stockToggle').classList.remove('on');
   document.getElementById('nuevoToggle').classList.remove('on');
@@ -150,7 +148,6 @@ function editarProducto(id) {
   if (!p) return;
 
   editingId = id;
-  selectedColors = p.colores || [];
   uploadedImageUrl = p.imagen_url || null;
 
   document.getElementById('inputNombre').value = p.nombre;
@@ -171,7 +168,6 @@ function editarProducto(id) {
     prev.style.display = 'block';
   }
 
-  renderColorChips();
   openDrawer('Editar Producto');
 }
 
