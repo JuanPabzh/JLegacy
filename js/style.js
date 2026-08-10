@@ -11,7 +11,7 @@ async function cargarConfiguracion() {
   if (data[0]) {
     WA_NUMBER = data[0].whatsapp;
     document.querySelectorAll('.ig-link').forEach(a => {
-      a.href = `https://instagram.com/${data[0].instagram_style}`;
+      a.href = `https://instagram.com/${data[0].instagram_caps}`;
     });
     document.querySelectorAll('.wa-link').forEach(a => {
       a.href = `https://wa.me/${data[0].whatsapp}`;
