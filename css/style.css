@@ -714,7 +714,7 @@ body::before {
   gap: 10px;
   width: 100%;
   padding: 14px;
-  background: #25D366;
+  background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
   border-radius: 12px;
   color: white;
   font-size: 14px;
@@ -723,13 +723,13 @@ body::before {
   text-transform: uppercase;
   font-family: 'Rajdhani', sans-serif;
   text-decoration: none;
-  transition: background 0.25s, transform 0.2s;
+  transition: opacity 0.25s, transform 0.2s;
   border: none;
   cursor: pointer;
 }
 
 .modal-wa:hover {
-  background: #20b858;
+  opacity: 0.9;
   transform: scale(1.02);
 }
 
