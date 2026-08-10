@@ -11,6 +11,7 @@ const HEADERS = {
 // ── ESTADO ──
 let allProducts = [];
 let editingId = null;
+let configId = null;
 let selectedColors = [];
 let uploadedImageUrl = null;
 
