@@ -204,9 +204,11 @@ document.getElementById('sortSelect').addEventListener('change', e => {
 });
  
 const toggleTrack = document.getElementById('stockToggle');
+const toggleTrackInner = toggleTrack.querySelector('.toggle-track');
+
 toggleTrack.addEventListener('click', () => {
   state.onlyStock = !state.onlyStock;
-  toggleTrack.classList.toggle('on', state.onlyStock);
+  toggleTrackInner.classList.toggle('on', state.onlyStock);
   renderProducts(window._products || []);
 });
  
