@@ -300,7 +300,7 @@ document.getElementById('btnGuardarConfig').addEventListener('click', async () =
   const res = await fetch(`${SUPABASE_URL}/rest/v1/configuracion`, {
     method: 'PATCH',
     headers: HEADERS,
-    body: JSON.stringify({ whatsapp, instagram_caps, instagram_style, instagram_tech })
+    body: JSON.stringify({ whatsapp, instagram_caps: instagram_style, instagram_tech })
   });
 
   if (res.ok) {
