@@ -540,10 +540,10 @@ body::before {
   width: 100%;
   margin-top: 10px;
   padding: 8px;
-  background: rgba(37,211,102,0.1);
-  border: 1px solid rgba(37,211,102,0.25);
+  background: rgba(214,41,118,0.1);
+  border: 1px solid rgba(214,41,118,0.3);
   border-radius: 8px;
-  color: #25D366;
+  color: #d62976;
   font-size: 11px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -554,8 +554,8 @@ body::before {
 }
 
 .card-wa:hover {
-  background: rgba(37,211,102,0.2);
-  border-color: rgba(37,211,102,0.5);
+  background: rgba(214,41,118,0.2);
+  border-color: rgba(214,41,118,0.6);
 }
 
 .card-wa svg {
