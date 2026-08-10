@@ -287,7 +287,7 @@ async function loadConfig() {
   const data = await res.json();
   if (data[0]) {
     document.getElementById('inputWA').value = data[0].whatsapp || '';
-    document.getElementById('inputIGStyle').value = data[0].instagram_style || '';
+    document.getElementById('inputIGStyle').value = data[0].instagram_caps || '';
     document.getElementById('inputIGTech').value = data[0].instagram_tech || '';
   }
 }
@@ -300,7 +300,7 @@ document.getElementById('btnGuardarConfig').addEventListener('click', async () =
   const res = await fetch(`${SUPABASE_URL}/rest/v1/configuracion`, {
     method: 'PATCH',
     headers: HEADERS,
-    body: JSON.stringify({ whatsapp, instagram_style, instagram_tech })
+    body: JSON.stringify({ whatsapp, instagram_caps, instagram_style, instagram_tech })
   });
 
   if (res.ok) {
