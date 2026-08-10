@@ -287,6 +287,7 @@ async function loadConfig() {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/configuracion?select=*`, { headers: HEADERS });
   const data = await res.json();
   if (data[0]) {
+    configId = data[0].id;
     document.getElementById('inputWA').value = data[0].whatsapp || '';
     document.getElementById('inputIGStyle').value = data[0].instagram_caps || '';
     document.getElementById('inputIGTech').value = data[0].instagram_tech || '';
