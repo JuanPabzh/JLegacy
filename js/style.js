@@ -82,10 +82,6 @@ function renderProducts(products) {
     filtered = filtered.filter(p => p.categoria === state.style);
   }
 
-  if (state.color) {
-    filtered = filtered.filter(p => p.colores && p.colores.includes(state.color));
-  }
-
   if (state.onlyStock) {
     filtered = filtered.filter(p => p.stock);
   }
@@ -110,10 +106,6 @@ function renderProducts(products) {
     card.className = 'product-card' + (product.stock ? '' : ' out-of-stock');
     card.style.animationDelay = `${i * 0.07}s`;
 
-    const colorDots = product.colores
-      ? product.colores.map(c => `<div class="card-color-dot" style="background:${c}"></div>`).join('')
-      : '';
-
     const badge = product.es_nuevo
       ? `<div class="card-badge badge-new">Nuevo</div>`
       : !product.stock
@@ -135,7 +127,6 @@ function renderProducts(products) {
         <div class="card-name">${product.nombre}</div>
         <div class="card-bottom">
           <div class="card-price">$${formatPrice(product.precio)}</div>
-          <div class="card-colors">${colorDots}</div>
         </div>
         <button class="card-wa card-ig-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
@@ -171,21 +162,6 @@ function openModal(product) {
   document.getElementById('modalDesc').textContent = product.descripcion;
   document.getElementById('modalImg').src = product.imagen_url || 'assets/style-placeholder.jpg';
   document.getElementById('modalImg').alt = product.nombre;
-
-  const colorsEl = document.getElementById('modalColors');
-  colorsEl.innerHTML = product.colores
-    ? product.colores.map((c, i) =>
-        `<div class="modal-color${i === 0 ? ' active' : ''}" style="background:${c}" data-color="${c}"></div>`
-      ).join('')
-    : '';
-
-  colorsEl.querySelectorAll('.modal-color').forEach(dot => {
-    dot.addEventListener('click', () => {
-      colorsEl.querySelectorAll('.modal-color').forEach(d => d.classList.remove('active'));
-      dot.classList.add('active');
-      selectedModalColor = dot.dataset.color;
-    });
-  });
 
   updateModalWA(product);
   document.getElementById('modalOverlay').classList.add('open');
