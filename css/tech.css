@@ -511,10 +511,10 @@ body::before {
   width: 100%;
   margin-top: 10px;
   padding: 8px;
-  background: rgba(37,211,102,0.1);
-  border: 1px solid rgba(37,211,102,0.25);
+  background: rgba(214,41,118,0.1);
+  border: 1px solid rgba(214,41,118,0.3);
   border-radius: 8px;
-  color: #25D366;
+  color: #d62976;
   font-size: 11px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -524,7 +524,7 @@ body::before {
   transition: background 0.25s, border-color 0.25s;
 }
 
-.card-wa:hover { background: rgba(37,211,102,0.2); border-color: rgba(37,211,102,0.5); }
+.card-wa:hover { background: rgba(214,41,118,0.2); border-color: rgba(214,41,118,0.6); }
 .card-wa svg { width: 14px; height: 14px; fill: currentColor; }
 
 .empty-state {
@@ -653,7 +653,7 @@ body::before {
   gap: 10px;
   width: 100%;
   padding: 14px;
-  background: #25D366;
+  background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
   border-radius: 12px;
   color: white;
   font-size: 14px;
@@ -662,10 +662,12 @@ body::before {
   text-transform: uppercase;
   font-family: 'Rajdhani', sans-serif;
   text-decoration: none;
-  transition: background 0.25s, transform 0.2s;
+  transition: opacity 0.25s, transform 0.2s;
   border: none;
   cursor: pointer;
 }
+
+.modal-wa:hover { opacity: 0.9; transform: scale(1.02); }
 
 .modal-wa:hover { background: #20b858; transform: scale(1.02); }
 .modal-wa svg { width: 20px; height: 20px; fill: white; }
