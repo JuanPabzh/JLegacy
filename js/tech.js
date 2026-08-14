@@ -26,10 +26,7 @@ async function cargarProductos() {
   return await res.json();
 }
 
-const categories = ['Todos', 'Cargadores', 'Audífonos', 'Diademas', 'Mouse', 'Teclados', 'Parlantes', 'Relojes', 'Forros'];
-
 let state = {
-  category: 'Todos',
   sort: 'default',
   onlyStock: false
 };
@@ -72,32 +69,12 @@ function formatPrice(n) {
   return n.toLocaleString('es-CO');
 }
 
-function renderCategoryPills() {
-  const container = document.getElementById('categoryPills');
-  container.innerHTML = categories.map(cat =>
-    `<button class="pill${cat === 'Todos' ? ' active' : ''}" data-cat="${cat}">${cat}</button>`
-  ).join('');
-
-  container.querySelectorAll('.pill').forEach(pill => {
-    pill.addEventListener('click', () => {
-      container.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      state.category = pill.dataset.cat;
-      renderProducts(window._products || []);
-    });
-  });
-}
-
 function renderProducts(products) {
   const grid = document.getElementById('productsGrid');
   const emptyState = document.getElementById('emptyState');
   const countEl = document.getElementById('resultsCount');
 
   let filtered = [...products];
-
-  if (state.category !== 'Todos') {
-    filtered = filtered.filter(p => p.categoria === state.category);
-  }
 
   if (state.onlyStock) {
     filtered = filtered.filter(p => p.stock);
@@ -217,7 +194,6 @@ async function init() {
   await cargarConfiguracion();
   const products = await cargarProductos();
   window._products = products;
-  renderCategoryPills();
   renderProducts(products);
 }
 
