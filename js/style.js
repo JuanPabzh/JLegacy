@@ -19,8 +19,9 @@ async function cargarConfiguracion() {
   }
 }
 
+// Los productos más nuevos primero; los más viejos quedan abajo
 async function cargarProductos() {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?tienda=eq.style&select=*`, {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?tienda=eq.style&select=*&order=created_at.desc.nullslast,id.desc`, {
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
   });
   return await res.json();
