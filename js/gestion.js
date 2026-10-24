@@ -1,6 +1,8 @@
 const SUPABASE_URL = 'https://raslnnnqwwilhefygjrm.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhc2xubm5xd3dpbGhlZnlnanJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MTI2NTUsImV4cCI6MjA5NTQ4ODY1NX0.Z9X08leNDkmEuEjuDskBkKuCjN8mGR0Fg4wbj15eaH4';
 
+const TIENDA = 'style';
+
 const HEADERS = {
   'apikey': SUPABASE_KEY,
   'Authorization': `Bearer ${SUPABASE_KEY}`,
@@ -12,10 +14,15 @@ const HEADERS = {
 let allProducts = [];
 let editingId = null;
 let configId = null;
-let selectedColors = [];
 let uploadedImageUrl = null;
 
-// ── TOAST ──
+// ── UTILIDADES ──
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
 function showToast(msg, isError = false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -38,39 +45,47 @@ document.querySelectorAll('.nav-item').forEach(item => {
     if (target === 'sec-config') loadConfig();
     if (target === 'sec-dashboard') loadDashboard();
 
-    // Cerrar sidebar en mobile
     document.querySelector('.sidebar').classList.remove('open');
   });
 });
 
-// Mobile menu
 document.getElementById('menuToggle').addEventListener('click', () => {
   document.querySelector('.sidebar').classList.toggle('open');
 });
 
 // ── DASHBOARD ──
 async function loadDashboard() {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?select=*`, { headers: HEADERS });
-  const products = await res.json();
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?tienda=eq.${TIENDA}&select=id,stock`, { headers: HEADERS });
+    const products = await res.json();
+    if (!Array.isArray(products)) throw new Error('Respuesta inesperada');
 
-  const style = products.filter(p => p.tienda === 'style');
-  const tech = products.filter(p => p.tienda === 'tech');
-  const inStock = products.filter(p => p.stock);
+    const inStock = products.filter(p => p.stock).length;
 
-  document.getElementById('statTotal').textContent = products.length;
-  document.getElementById('statStyle').textContent = style.length;
-  document.getElementById('statTech').textContent = tech.length;
-  document.getElementById('statStock').textContent = inStock.length;
+    document.getElementById('statTotal').textContent = products.length;
+    document.getElementById('statStock').textContent = inStock;
+    document.getElementById('statOut').textContent = products.length - inStock;
+  } catch (err) {
+    showToast('No se pudo cargar el dashboard', true);
+  }
 }
 
 // ── PRODUCTOS ──
 async function loadProductos() {
   const search = document.getElementById('searchInput')?.value?.toLowerCase() || '';
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?select=*&order=created_at.desc`, { headers: HEADERS });
-  allProducts = await res.json();
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?tienda=eq.${TIENDA}&select=*&order=created_at.desc`, { headers: HEADERS });
+    const data = await res.json();
+    if (!Array.isArray(data)) throw new Error('Respuesta inesperada');
+    allProducts = data;
+  } catch (err) {
+    showToast('No se pudieron cargar los productos', true);
+    return;
+  }
 
   let filtered = allProducts;
-  if (search) filtered = filtered.filter(p => p.nombre.toLowerCase().includes(search));
+  if (search) filtered = filtered.filter(p => (p.nombre || '').toLowerCase().includes(search));
 
   renderTable(filtered);
 }
@@ -85,23 +100,26 @@ function renderTable(products) {
   }
 
   products.forEach(p => {
+    const nombre = escapeHtml(p.nombre);
+    const img = escapeHtml(p.imagen_url || 'assets/style-placeholder.jpg');
+    const precio = Number(p.precio || 0).toLocaleString('es-CO');
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>
-        <img class="product-thumb" src="${p.imagen_url || 'assets/style-placeholder.jpg'}" 
-             onerror="this.src='assets/style-placeholder.jpg'" alt="${p.nombre}">
+        <img class="product-thumb" src="${img}"
+             onerror="this.src='assets/style-placeholder.jpg'" alt="${nombre}">
       </td>
-      <td class="td-name">${p.nombre}</td>
-      <td><span class="badge badge-${p.tienda}">${p.tienda}</span></td>
-      <td>${p.categoria}</td>
-      <td class="td-price">$${p.precio.toLocaleString('es-CO')}</td>
+      <td class="td-name">${nombre}</td>
+      <td>${escapeHtml(p.categoria || '—')}</td>
+      <td class="td-price">$${precio}</td>
       <td><span class="badge ${p.stock ? 'badge-stock' : 'badge-nostock'}">${p.stock ? 'Disponible' : 'Agotado'}</span></td>
       <td class="td-actions">
-        <button class="btn btn-outline btn-sm" onclick="editarProducto(${p.id})">
+        <button class="btn btn-outline btn-sm" data-action="edit" data-id="${p.id}">
           <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           Editar
         </button>
-        <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${p.id}, '${p.nombre}')">
+        <button class="btn btn-danger btn-sm" data-action="delete" data-id="${p.id}">
           <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
           Eliminar
         </button>
@@ -110,6 +128,14 @@ function renderTable(products) {
     tbody.appendChild(tr);
   });
 }
+
+document.getElementById('productosBody').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-action]');
+  if (!btn) return;
+  const id = Number(btn.dataset.id);
+  if (btn.dataset.action === 'edit') editarProducto(id);
+  if (btn.dataset.action === 'delete') eliminarProducto(id);
+});
 
 // ── DRAWER ──
 function openDrawer(titulo) {
@@ -133,11 +159,11 @@ function resetForm() {
   editingId = null;
   uploadedImageUrl = null;
   document.getElementById('imgPreview').style.display = 'none';
-  document.getElementById('stockToggle').classList.remove('on');
+  document.getElementById('stockToggle').classList.add('on');   // producto nuevo: en stock por defecto
   document.getElementById('nuevoToggle').classList.remove('on');
 }
 
-// ── NUEVO PRODUCTO ──
+// ── NUEVO ──
 document.getElementById('btnNuevo').addEventListener('click', () => {
   resetForm();
   openDrawer('Nuevo Producto');
@@ -151,41 +177,45 @@ function editarProducto(id) {
   editingId = id;
   uploadedImageUrl = p.imagen_url || null;
 
-  document.getElementById('inputNombre').value = p.nombre;
+  document.getElementById('inputNombre').value = p.nombre || '';
   document.getElementById('inputDescripcion').value = p.descripcion || '';
   document.getElementById('inputPrecio').value = p.precio;
-  document.getElementById('inputTienda').value = p.tienda;
-  document.getElementById('inputCategoria').value = p.categoria;
+  document.getElementById('inputCategoria').value = p.categoria || '';
 
-  const stockToggle = document.getElementById('stockToggle');
-  p.stock ? stockToggle.classList.add('on') : stockToggle.classList.remove('on');
+  document.getElementById('stockToggle').classList.toggle('on', !!p.stock);
+  document.getElementById('nuevoToggle').classList.toggle('on', !!p.es_nuevo);
 
-  const nuevoToggle = document.getElementById('nuevoToggle');
-  p.es_nuevo ? nuevoToggle.classList.add('on') : nuevoToggle.classList.remove('on');
-
+  const prev = document.getElementById('imgPreview');
   if (p.imagen_url) {
-    const prev = document.getElementById('imgPreview');
     prev.src = p.imagen_url;
     prev.style.display = 'block';
+  } else {
+    prev.style.display = 'none';
   }
 
   openDrawer('Editar Producto');
 }
 
 // ── ELIMINAR ──
-async function eliminarProducto(id, nombre) {
+async function eliminarProducto(id) {
+  const p = allProducts.find(x => x.id === id);
+  const nombre = p ? p.nombre : 'este producto';
   if (!confirm(`¿Eliminar "${nombre}"? Esta acción no se puede deshacer.`)) return;
 
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, {
-    method: 'DELETE',
-    headers: HEADERS
-  });
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, {
+      method: 'DELETE',
+      headers: HEADERS
+    });
 
-  if (res.ok) {
-    showToast('Producto eliminado');
-    loadProductos();
-    loadDashboard();
-  } else {
+    if (res.ok) {
+      showToast('Producto eliminado');
+      loadProductos();
+      loadDashboard();
+    } else {
+      showToast('Error al eliminar', true);
+    }
+  } catch (err) {
     showToast('Error al eliminar', true);
   }
 }
@@ -195,12 +225,11 @@ document.getElementById('btnGuardar').addEventListener('click', async () => {
   const nombre = document.getElementById('inputNombre').value.trim();
   const descripcion = document.getElementById('inputDescripcion').value.trim();
   const precio = parseInt(document.getElementById('inputPrecio').value);
-  const tienda = document.getElementById('inputTienda').value;
   const categoria = document.getElementById('inputCategoria').value.trim();
   const stock = document.getElementById('stockToggle').classList.contains('on');
   const es_nuevo = document.getElementById('nuevoToggle').classList.contains('on');
 
-  if (!nombre || !precio || !tienda) {
+  if (!nombre || !precio) {
     showToast('Completa los campos obligatorios', true);
     return;
   }
@@ -209,34 +238,38 @@ document.getElementById('btnGuardar').addEventListener('click', async () => {
     nombre,
     descripcion,
     precio,
-    tienda,
+    tienda: TIENDA,
     categoria,
     stock,
     es_nuevo,
     imagen_url: uploadedImageUrl
   };
 
-  let res;
-  if (editingId) {
-    res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${editingId}`, {
-      method: 'PATCH',
-      headers: HEADERS,
-      body: JSON.stringify(payload)
-    });
-  } else {
-    res = await fetch(`${SUPABASE_URL}/rest/v1/productos`, {
-      method: 'POST',
-      headers: HEADERS,
-      body: JSON.stringify(payload)
-    });
-  }
+  try {
+    let res;
+    if (editingId) {
+      res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${editingId}`, {
+        method: 'PATCH',
+        headers: HEADERS,
+        body: JSON.stringify(payload)
+      });
+    } else {
+      res = await fetch(`${SUPABASE_URL}/rest/v1/productos`, {
+        method: 'POST',
+        headers: HEADERS,
+        body: JSON.stringify(payload)
+      });
+    }
 
-  if (res.ok) {
-    showToast(editingId ? 'Producto actualizado ✓' : 'Producto creado ✓');
-    closeDrawer();
-    loadProductos();
-    loadDashboard();
-  } else {
+    if (res.ok) {
+      showToast(editingId ? 'Producto actualizado ✓' : 'Producto creado ✓');
+      closeDrawer();
+      loadProductos();
+      loadDashboard();
+    } else {
+      showToast('Error al guardar', true);
+    }
+  } catch (err) {
     showToast('Error al guardar', true);
   }
 });
@@ -249,33 +282,37 @@ document.getElementById('imgInput').addEventListener('change', async e => {
   const ext = file.name.split('.').pop();
   const fileName = `${Date.now()}.${ext}`;
 
-  const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/productos/${fileName}`, {
-    method: 'POST',
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': `Bearer ${SUPABASE_KEY}`,
-      'Content-Type': file.type
-    },
-    body: file
-  });
+  try {
+    const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/productos/${fileName}`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': file.type
+      },
+      body: file
+    });
 
-  if (uploadRes.ok) {
-    uploadedImageUrl = `${SUPABASE_URL}/storage/v1/object/public/productos/${fileName}`;
-    const prev = document.getElementById('imgPreview');
-    prev.src = uploadedImageUrl;
-    prev.style.display = 'block';
-    showToast('Imagen subida ✓');
-  } else {
+    if (uploadRes.ok) {
+      uploadedImageUrl = `${SUPABASE_URL}/storage/v1/object/public/productos/${fileName}`;
+      const prev = document.getElementById('imgPreview');
+      prev.src = uploadedImageUrl;
+      prev.style.display = 'block';
+      showToast('Imagen subida ✓');
+    } else {
+      showToast('Error al subir imagen', true);
+    }
+  } catch (err) {
     showToast('Error al subir imagen', true);
   }
 });
 
 // ── TOGGLES DEL FORM ──
-document.getElementById('stockToggle').addEventListener('click', function() {
+document.getElementById('stockToggle').addEventListener('click', function () {
   this.classList.toggle('on');
 });
 
-document.getElementById('nuevoToggle').addEventListener('click', function() {
+document.getElementById('nuevoToggle').addEventListener('click', function () {
   this.classList.toggle('on');
 });
 
@@ -284,30 +321,36 @@ document.getElementById('searchInput')?.addEventListener('input', () => loadProd
 
 // ── CONFIGURACIÓN ──
 async function loadConfig() {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/configuracion?select=*`, { headers: HEADERS });
-  const data = await res.json();
-  if (data[0]) {
-    configId = data[0].id;
-    document.getElementById('inputWA').value = data[0].whatsapp || '';
-    document.getElementById('inputIGStyle').value = data[0].instagram_caps || '';
-    document.getElementById('inputIGTech').value = data[0].instagram_tech || '';
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/configuracion?select=*`, { headers: HEADERS });
+    const data = await res.json();
+    if (data[0]) {
+      configId = data[0].id;
+      document.getElementById('inputWA').value = data[0].whatsapp || '';
+      document.getElementById('inputIGStyle').value = data[0].instagram_caps || '';
+    }
+  } catch (err) {
+    showToast('No se pudo cargar la configuración', true);
   }
 }
 
 document.getElementById('btnGuardarConfig').addEventListener('click', async () => {
   const whatsapp = document.getElementById('inputWA').value.trim();
   const instagram_style = document.getElementById('inputIGStyle').value.trim();
-  const instagram_tech = document.getElementById('inputIGTech').value.trim();
 
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/configuracion?id=eq.${configId}`, {
-    method: 'PATCH',
-    headers: HEADERS,
-    body: JSON.stringify({ whatsapp, instagram_caps: instagram_style, instagram_tech })
-  });
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/configuracion?id=eq.${configId}`, {
+      method: 'PATCH',
+      headers: HEADERS,
+      body: JSON.stringify({ whatsapp, instagram_caps: instagram_style })
+    });
 
-  if (res.ok) {
-    showToast('Configuración guardada ✓');
-  } else {
+    if (res.ok) {
+      showToast('Configuración guardada ✓');
+    } else {
+      showToast('Error al guardar', true);
+    }
+  } catch (err) {
     showToast('Error al guardar', true);
   }
 });

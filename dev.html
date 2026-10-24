@@ -58,7 +58,7 @@
     </div>
 
     <div class="nav-social">
-      <a href="https://instagram.com/juanpabzh" target="_blank" rel="noopener" aria-label="Instagram">
+      <a href="https://instagram.com/jlegacysoftware_" target="_blank" rel="noopener" aria-label="Instagram">
         <svg class="ico"><use href="#i-ig"/></svg>
       </a>
       <a href="https://wa.me/573244083274" target="_blank" rel="noopener" aria-label="WhatsApp">
@@ -81,7 +81,7 @@
     <div class="dev-hero-label">JLegacy Software</div>
     <h1 class="dev-hero-title">
       Tu negocio,<br>
-      <span class="typed-line"><span id="typedText"></span><span class="typed-cursor"></span></span>
+      <span class="typed-line"><span id="typedText">en internet.</span><span class="typed-cursor"></span></span>
     </h1>
     <p class="dev-hero-sub">Páginas web, sistemas de gestión y presencia digital hechos a la medida, para negocios que quieren verse y funcionar mejor.</p>
 
@@ -136,123 +136,195 @@
     <p class="payment-note reveal">Pago único o plan mensual — tú eliges.</p>
   </section>
 
-  <!-- DEMO EN VIVO -->
+  <!-- DEMO EN VIVO (funciona sin JavaScript) -->
   <section class="dev-section" id="demo">
     <h2 class="section-title reveal">Míralo en vivo</h2>
     <p class="section-lead reveal">Elige un tipo de negocio y activa funciones para ver cómo se transforma.</p>
 
-    <div class="biz-chips reveal" id="bizChips">
-      <button class="biz-chip active" data-biz="restaurante" type="button">🍽️ Restaurante</button>
-      <button class="biz-chip" data-biz="peluqueria" type="button">✂️ Peluquería</button>
-      <button class="biz-chip" data-biz="ropa" type="button">👕 Tienda de ropa</button>
-      <button class="biz-chip" data-biz="consultorio" type="button">🩺 Consultorio</button>
-    </div>
+    <div class="demo-wrap reveal">
 
-    <div class="demo-stage reveal">
+      <input class="demo-input" type="radio" name="biz" id="biz-restaurante" checked>
+      <input class="demo-input" type="radio" name="biz" id="biz-peluqueria">
+      <input class="demo-input" type="radio" name="biz" id="biz-ropa">
+      <input class="demo-input" type="radio" name="biz" id="biz-consultorio">
 
-      <div class="browser" id="demoMock">
-        <div class="browser-bar">
-          <span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span>
-          <div class="browser-url" id="demoUrl">mirestaurante.com</div>
-        </div>
+      <input class="demo-input" type="checkbox" id="feat-maps">
+      <input class="demo-input" type="checkbox" id="feat-qr">
+      <input class="demo-input" type="checkbox" id="feat-reservas">
+      <input class="demo-input" type="checkbox" id="feat-inventario">
 
-        <div class="browser-body">
-          <div class="mock-hero">
-            <div class="mock-icon" id="demoIcon">🍽️</div>
-            <div class="mock-hero-text">
-              <div class="mock-name" id="demoName">Sabor Vallenato</div>
-              <div class="mock-tagline" id="demoTagline">La mejor comida de la ciudad</div>
-            </div>
-            <button class="mock-cta" id="demoCta" type="button">Ver menú</button>
-          </div>
-
-          <div class="mock-items" id="demoItems"></div>
-
-          <div class="mock-blocks">
-
-            <div class="mock-block" data-feature="maps">
-              <div class="mock-map">
-                <span class="map-grid"></span>
-                <svg class="map-pin ico"><use href="#i-pin"/></svg>
-              </div>
-              <div class="mock-block-text">
-                <strong>Encuéntranos en Google Maps</strong>
-                <span>Ubicación exacta, fotos y horario</span>
-              </div>
-            </div>
-
-            <div class="mock-block" data-feature="qr">
-              <div class="mock-qr">
-                <svg viewBox="0 0 9 9" aria-hidden="true">
-                  <path fill="currentColor" d="M0 0h3v3H0zM6 0h3v3H6zM0 6h3v3H0zM4 0h1v1H4zM4 2h1v1H4zM3 4h2v1H3zM5 5h1v2H5zM7 4h2v1H7zM4 6h1v1H4zM6 8h3v1H6zM3 8h1v1H3z"/>
-                  <path class="qr-eye" d="M1 1h1v1H1zM7 1h1v1H7zM1 7h1v1H1z"/>
-                </svg>
-              </div>
-              <div class="mock-block-text">
-                <strong>Escanea y míranos</strong>
-                <span>Tu código QR con tu logo</span>
-              </div>
-            </div>
-
-            <div class="mock-block" data-feature="reservas">
-              <div class="mock-block-text">
-                <strong>Reserva tu cita</strong>
-                <span>Elige tu día</span>
-              </div>
-              <div class="mock-days">
-                <button class="mock-day" type="button">L</button>
-                <button class="mock-day" type="button">M</button>
-                <button class="mock-day" type="button">M</button>
-                <button class="mock-day" type="button">J</button>
-                <button class="mock-day" type="button">V</button>
-                <button class="mock-day" type="button">S</button>
-                <button class="mock-day" type="button">D</button>
-              </div>
-            </div>
-
-            <div class="mock-block" data-feature="inventario">
-              <div class="mock-block-text">
-                <strong>Panel de inventario</strong>
-                <span>Stock al día, sin cuadernos</span>
-              </div>
-              <div class="mock-stock">
-                <div class="stock-row"><span>Producto A</span><div class="stock-bar"><i style="--w:82%"></i></div><b>82</b></div>
-                <div class="stock-row"><span>Producto B</span><div class="stock-bar"><i style="--w:46%"></i></div><b>46</b></div>
-                <div class="stock-row low"><span>Producto C</span><div class="stock-bar"><i style="--w:12%"></i></div><b>12</b></div>
-              </div>
-            </div>
-
-          </div>
-        </div>
+      <div class="biz-chips">
+        <label class="biz-chip" for="biz-restaurante">🍽️ Restaurante</label>
+        <label class="biz-chip" for="biz-peluqueria">✂️ Peluquería</label>
+        <label class="biz-chip" for="biz-ropa">👕 Tienda de ropa</label>
+        <label class="biz-chip" for="biz-consultorio">🩺 Consultorio</label>
       </div>
 
-      <div class="feature-panel">
-        <div class="feature-title">Activa funciones</div>
+      <div class="demo-stage">
 
-        <button class="feature-toggle" data-feature="maps" aria-pressed="false" type="button">
-          <svg class="ico"><use href="#i-pin"/></svg>
-          <span>Google Maps</span>
-          <i class="switch"></i>
-        </button>
-        <button class="feature-toggle" data-feature="qr" aria-pressed="false" type="button">
-          <svg class="ico"><use href="#i-qr"/></svg>
-          <span>Código QR</span>
-          <i class="switch"></i>
-        </button>
-        <button class="feature-toggle" data-feature="reservas" aria-pressed="false" type="button">
-          <svg class="ico"><use href="#i-cal"/></svg>
-          <span>Reservas y citas</span>
-          <i class="switch"></i>
-        </button>
-        <button class="feature-toggle" data-feature="inventario" aria-pressed="false" type="button">
-          <svg class="ico"><use href="#i-box"/></svg>
-          <span>Inventario</span>
-          <i class="switch"></i>
-        </button>
+        <div class="browser">
+          <div class="browser-bar">
+            <span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span>
+            <div class="browser-url">
+              <span class="url-item" data-biz="restaurante">🔒 saborvallenato.com</span>
+              <span class="url-item" data-biz="peluqueria">🔒 estilototal.com</span>
+              <span class="url-item" data-biz="ropa">🔒 urbanstyle.com</span>
+              <span class="url-item" data-biz="consultorio">🔒 saludintegral.com</span>
+            </div>
+          </div>
 
-        <p class="feature-hint">Es una vista de ejemplo: tu página se hace con tu marca, tus colores y tu información.</p>
+          <div class="browser-body">
+
+            <div class="biz-panel" data-biz="restaurante">
+              <div class="mock-hero">
+                <div class="mock-icon">🍽️</div>
+                <div class="mock-hero-text">
+                  <div class="mock-name">Sabor Vallenato</div>
+                  <div class="mock-tagline">La mejor comida de la ciudad</div>
+                </div>
+                <span class="mock-cta">Ver menú</span>
+              </div>
+              <div class="mock-items">
+                <div class="mock-item"><i>🍖</i><span>Plato del día</span><b>$22.000</b></div>
+                <div class="mock-item"><i>🍹</i><span>Jugo natural</span><b>$6.000</b></div>
+                <div class="mock-item"><i>🍰</i><span>Postre casero</span><b>$9.000</b></div>
+              </div>
+            </div>
+
+            <div class="biz-panel" data-biz="peluqueria">
+              <div class="mock-hero">
+                <div class="mock-icon">✂️</div>
+                <div class="mock-hero-text">
+                  <div class="mock-name">Estilo Total</div>
+                  <div class="mock-tagline">Cortes y color con cita previa</div>
+                </div>
+                <span class="mock-cta">Reservar cita</span>
+              </div>
+              <div class="mock-items">
+                <div class="mock-item"><i>💇</i><span>Corte</span><b>$20.000</b></div>
+                <div class="mock-item"><i>🎨</i><span>Tintura</span><b>$60.000</b></div>
+                <div class="mock-item"><i>🧖</i><span>Tratamiento</span><b>$35.000</b></div>
+              </div>
+            </div>
+
+            <div class="biz-panel" data-biz="ropa">
+              <div class="mock-hero">
+                <div class="mock-icon">👕</div>
+                <div class="mock-hero-text">
+                  <div class="mock-name">Urban Style</div>
+                  <div class="mock-tagline">Moda urbana para todos</div>
+                </div>
+                <span class="mock-cta">Ver catálogo</span>
+              </div>
+              <div class="mock-items">
+                <div class="mock-item"><i>🧢</i><span>Gorra</span><b>$35.000</b></div>
+                <div class="mock-item"><i>👕</i><span>Camiseta</span><b>$45.000</b></div>
+                <div class="mock-item"><i>👟</i><span>Tenis</span><b>$120.000</b></div>
+              </div>
+            </div>
+
+            <div class="biz-panel" data-biz="consultorio">
+              <div class="mock-hero">
+                <div class="mock-icon">🩺</div>
+                <div class="mock-hero-text">
+                  <div class="mock-name">Salud Integral</div>
+                  <div class="mock-tagline">Atención con agenda online</div>
+                </div>
+                <span class="mock-cta">Agendar cita</span>
+              </div>
+              <div class="mock-items">
+                <div class="mock-item"><i>🩺</i><span>Consulta general</span><b>$50.000</b></div>
+                <div class="mock-item"><i>🦷</i><span>Odontología</span><b>$70.000</b></div>
+                <div class="mock-item"><i>🧪</i><span>Exámenes</span><b>$40.000</b></div>
+              </div>
+            </div>
+
+            <div class="mock-blocks">
+
+              <div class="mock-block" data-feature="maps">
+                <div class="mock-map">
+                  <span class="map-grid"></span>
+                  <span class="map-pin">📍</span>
+                </div>
+                <div class="mock-block-text">
+                  <strong>📍 Encuéntranos en Google Maps</strong>
+                  <span>Ubicación exacta, fotos y horario</span>
+                </div>
+              </div>
+
+              <div class="mock-block" data-feature="qr">
+                <div class="mock-qr">
+                  <svg viewBox="0 0 9 9" aria-hidden="true">
+                    <path fill="currentColor" d="M0 0h3v3H0zM6 0h3v3H6zM0 6h3v3H0zM4 0h1v1H4zM4 2h1v1H4zM3 4h2v1H3zM5 5h1v2H5zM7 4h2v1H7zM4 6h1v1H4zM6 8h3v1H6zM3 8h1v1H3z"/>
+                    <path class="qr-eye" d="M1 1h1v1H1zM7 1h1v1H7zM1 7h1v1H1z"/>
+                  </svg>
+                </div>
+                <div class="mock-block-text">
+                  <strong>📲 Escanea y míranos</strong>
+                  <span>Tu código QR con tu logo</span>
+                </div>
+              </div>
+
+              <div class="mock-block" data-feature="reservas">
+                <div class="mock-block-text">
+                  <strong>📅 Reserva tu cita</strong>
+                  <span>Elige tu día</span>
+                </div>
+                <div class="mock-days">
+                  <input class="day-radio" type="radio" name="dia" id="dia-1"><label class="mock-day" for="dia-1">L</label>
+                  <input class="day-radio" type="radio" name="dia" id="dia-2"><label class="mock-day" for="dia-2">M</label>
+                  <input class="day-radio" type="radio" name="dia" id="dia-3"><label class="mock-day" for="dia-3">M</label>
+                  <input class="day-radio" type="radio" name="dia" id="dia-4"><label class="mock-day" for="dia-4">J</label>
+                  <input class="day-radio" type="radio" name="dia" id="dia-5"><label class="mock-day" for="dia-5">V</label>
+                  <input class="day-radio" type="radio" name="dia" id="dia-6"><label class="mock-day" for="dia-6">S</label>
+                  <input class="day-radio" type="radio" name="dia" id="dia-7"><label class="mock-day" for="dia-7">D</label>
+                </div>
+              </div>
+
+              <div class="mock-block" data-feature="inventario">
+                <div class="mock-block-text">
+                  <strong>📦 Panel de inventario</strong>
+                  <span>Stock al día, sin cuadernos</span>
+                </div>
+                <div class="mock-stock">
+                  <div class="stock-row"><span>📦 Producto A</span><div class="stock-bar"><i style="--w:82%"></i></div><b>82</b></div>
+                  <div class="stock-row"><span>🛍️ Producto B</span><div class="stock-bar"><i style="--w:46%"></i></div><b>46</b></div>
+                  <div class="stock-row low"><span>⚠️ Producto C</span><div class="stock-bar"><i style="--w:12%"></i></div><b>12</b></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-panel">
+          <div class="feature-title">Activa funciones</div>
+
+          <label class="feature-toggle" for="feat-maps">
+            <span class="feat-emoji">📍</span>
+            <span class="feat-name">Google Maps</span>
+            <i class="switch"></i>
+          </label>
+          <label class="feature-toggle" for="feat-qr">
+            <span class="feat-emoji">📲</span>
+            <span class="feat-name">Código QR</span>
+            <i class="switch"></i>
+          </label>
+          <label class="feature-toggle" for="feat-reservas">
+            <span class="feat-emoji">📅</span>
+            <span class="feat-name">Reservas y citas</span>
+            <i class="switch"></i>
+          </label>
+          <label class="feature-toggle" for="feat-inventario">
+            <span class="feat-emoji">📦</span>
+            <span class="feat-name">Inventario</span>
+            <i class="switch"></i>
+          </label>
+
+          <p class="feature-hint">Es una vista de ejemplo: tu página se hace con tu marca, tus colores y tu información.</p>
+        </div>
+
       </div>
-
     </div>
   </section>
 
@@ -611,9 +683,9 @@
         <svg class="ico"><use href="#i-wa"/></svg>
         +57 324 408 3274
       </a>
-      <a href="https://ig.me/m/juanpabzh" target="_blank" rel="noopener" class="contact-btn">
+      <a href="https://ig.me/m/jlegacysoftware_" target="_blank" rel="noopener" class="contact-btn">
         <svg class="ico"><use href="#i-ig"/></svg>
-        @juanpabzh
+        @jlegacysoftware_
       </a>
       <a href="mailto:juanpabzh@gmail.com" class="contact-btn">
         <svg class="ico"><use href="#i-mail"/></svg>
@@ -626,9 +698,15 @@
     <div class="footer-text">© 2026 JLegacy Software — Todos los derechos reservados</div>
   </footer>
 
-  <a class="float-wa" href="https://wa.me/573244083274?text=Hola%2C%20vi%20JLegacy%20Software%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noopener" aria-label="WhatsApp">
-    <svg class="ico"><use href="#i-wa"/></svg>
-  </a>
+  <!-- Botones flotantes: Instagram arriba, WhatsApp abajo -->
+  <div class="float-stack">
+    <a class="float-btn float-ig" href="https://instagram.com/jlegacysoftware_" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg class="ico"><use href="#i-ig"/></svg>
+    </a>
+    <a class="float-btn float-wa" href="https://wa.me/573244083274?text=Hola%2C%20vi%20JLegacy%20Software%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <svg class="ico"><use href="#i-wa"/></svg>
+    </a>
+  </div>
 
   <script src="js/dev.js"></script>
 </body>
