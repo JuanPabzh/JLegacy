@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
   --black:       #080808;
@@ -34,7 +30,6 @@ body::before {
   z-index: 100;
   opacity: 0.4;
 }
-
 
 .scene {
   position: relative;
@@ -136,8 +131,8 @@ body::before {
   background: radial-gradient(ellipse at 30% 50%, rgba(201,146,42,0.18) 0%, transparent 65%);
 }
 
-.tech-btn .glow-layer {
-  background: radial-gradient(ellipse at 70% 50%, rgba(201,146,42,0.18) 0%, transparent 65%);
+.software-btn .glow-layer {
+  background: radial-gradient(ellipse at 70% 50%, rgba(77,143,255,0.18) 0%, transparent 65%);
 }
 
 .store-btn:hover .glow-layer { opacity: 1; }
@@ -181,7 +176,7 @@ body::before {
 }
 
 .style-btn .btn-content { animation-delay: 0.5s; }
-.tech-btn .btn-content { animation-delay: 0.7s; }
+.software-btn .btn-content { animation-delay: 0.7s; }
 
 .logo-wrap {
   width: clamp(100px, 20vw, 160px);
@@ -191,16 +186,18 @@ body::before {
   filter: drop-shadow(0 0 20px rgba(201,146,42,0.3));
 }
 
+.software-btn .logo-wrap { filter: drop-shadow(0 0 20px rgba(77,143,255,0.3)); }
+
 .store-btn:hover .logo-wrap {
   transform: scale(1.08) translateY(-4px);
   filter: drop-shadow(0 0 32px rgba(232,184,75,0.6)) drop-shadow(0 8px 24px rgba(0,0,0,0.6));
 }
 
-.logo-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+.software-btn:hover .logo-wrap {
+  filter: drop-shadow(0 0 32px rgba(77,143,255,0.6)) drop-shadow(0 8px 24px rgba(0,0,0,0.6));
 }
+
+.logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
 
 .logo-ring {
   position: absolute;
@@ -210,6 +207,8 @@ body::before {
   opacity: 0;
   transition: opacity 0.4s ease;
 }
+
+.software-btn .logo-ring { border-color: rgba(77,143,255,0.5); }
 
 .store-btn:hover .logo-ring {
   opacity: 1;
@@ -227,7 +226,8 @@ body::before {
   transition: color 0.3s ease;
 }
 
-.store-btn:hover .store-title { color: var(--gold-light); }
+.style-btn:hover .store-title { color: var(--gold-light); }
+.software-btn:hover .store-title { color: #7db4ff; }
 
 .store-subtitle {
   font-family: 'Rajdhani', sans-serif;
@@ -240,6 +240,8 @@ body::before {
   text-align: center;
   transition: letter-spacing 0.4s ease;
 }
+
+.software-btn .store-subtitle { color: #7db4ff; }
 
 .store-btn:hover .store-subtitle { letter-spacing: 0.5em; }
 
@@ -263,13 +265,15 @@ body::before {
   color: var(--gold-mid);
 }
 
+.software-btn:hover .enter-cta { color: #7db4ff; }
+
 .enter-cta::before,
 .enter-cta::after {
   content: '';
   display: block;
   width: 20px;
   height: 1px;
-  background: var(--gold-mid);
+  background: currentColor;
 }
 
 .corner {
@@ -285,12 +289,7 @@ body::before {
 .corner-bl { bottom: 20px; left: 20px;  border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
 .corner-br { bottom: 20px; right: 20px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
 
-.sparkle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  pointer-events: none;
-}
+.sparkle { position: absolute; width: 4px; height: 4px; pointer-events: none; }
 
 .sparkle::before, .sparkle::after {
   content: '';
@@ -325,37 +324,21 @@ body::before {
   animation: fadeIn 1.2s ease forwards 1.2s;
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeDown {
-  from { opacity: 0; transform: translateX(-50%) translateY(-16px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
+@keyframes fadeUp   { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeDown { from { opacity: 0; transform: translateX(-50%) translateY(-16px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+@keyframes fadeIn   { to { opacity: 1; } }
 @keyframes pulse-ambient {
   0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-  50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.08); }
+  50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.08); }
 }
-
 @keyframes pulse-dot {
   0%, 100% { box-shadow: 0 0 8px var(--gold), 0 0 16px rgba(201,146,42,0.3); }
-  50%       { box-shadow: 0 0 16px var(--gold-light), 0 0 32px rgba(232,184,75,0.5); }
+  50%      { box-shadow: 0 0 16px var(--gold-light), 0 0 32px rgba(232,184,75,0.5); }
 }
-
-@keyframes spin-ring {
-  to { transform: rotate(360deg); }
-}
-
+@keyframes spin-ring { to { transform: rotate(360deg); } }
 @keyframes twinkle {
   0%, 100% { opacity: 0.2; transform: scale(0.8); }
-  50%       { opacity: 1;   transform: scale(1.3); }
+  50%      { opacity: 1;   transform: scale(1.3); }
 }
 
 @media (max-width: 600px), (orientation: portrait) {
@@ -365,8 +348,8 @@ body::before {
   .style-btn .glow-layer {
     background: radial-gradient(ellipse at 50% 60%, rgba(201,146,42,0.2) 0%, transparent 65%);
   }
-  .tech-btn .glow-layer {
-    background: radial-gradient(ellipse at 50% 40%, rgba(201,146,42,0.2) 0%, transparent 65%);
+  .software-btn .glow-layer {
+    background: radial-gradient(ellipse at 50% 40%, rgba(77,143,255,0.2) 0%, transparent 65%);
   }
 
   .divider {
@@ -387,41 +370,4 @@ body::before {
 
   .brand-header { top: 20px; }
   .tagline { bottom: 14px; letter-spacing: 0.25em; }
-}
-
-.proximamente-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(8,8,8,0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  backdrop-filter: blur(2px);
-  z-index: 20;
-}
-
-.tech-btn:hover .proximamente-overlay {
-  opacity: 1;
-}
-
-.proximamente-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(24px, 5vw, 42px);
-  font-weight: 700;
-  color: var(--gold-light);
-  letter-spacing: 0.08em;
-  text-align: center;
-  filter: drop-shadow(0 0 20px rgba(232,184,75,0.6));
-  animation: pulse-text 2s ease-in-out infinite;
-}
-
-@keyframes pulse-text {
-  0%, 100% { opacity: 0.8; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-}
-
-.tech-btn {
-  cursor: default;
-}
+  }

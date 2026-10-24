@@ -39,7 +39,7 @@
       Configuración
     </a>
 
-    <div class="sidebar-footer">JLegacy © 2025</div>
+    <div class="sidebar-footer">JLegacy © 2026</div>
   </aside>
 
   <!-- ── MAIN ── -->
@@ -55,22 +55,17 @@
         <div class="stat-card">
           <div class="stat-label">Total productos</div>
           <div class="stat-value" id="statTotal">—</div>
-          <div class="stat-sub">En ambas tiendas</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">JLegacy Style</div>
-          <div class="stat-value" id="statStyle">—</div>
-          <div class="stat-sub">Ropa</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">JLegacy Tech</div>
-          <div class="stat-value" id="statTech">—</div>
-          <div class="stat-sub">Dispositivos</div>
+          <div class="stat-sub">En JLegacy Style</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Disponibles</div>
           <div class="stat-value" id="statStock">—</div>
           <div class="stat-sub">En stock</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Agotados</div>
+          <div class="stat-value" id="statOut">—</div>
+          <div class="stat-sub">Sin stock</div>
         </div>
       </div>
 
@@ -82,10 +77,6 @@
           <a href="style.html" target="_blank" class="btn btn-outline">
             <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             Ver tienda Style
-          </a>
-          <a href="tech.html" target="_blank" class="btn btn-outline">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Ver tienda Tech
           </a>
         </div>
       </div>
@@ -110,7 +101,6 @@
               <tr>
                 <th>Foto</th>
                 <th>Nombre</th>
-                <th>Tienda</th>
                 <th>Categoría</th>
                 <th>Precio</th>
                 <th>Stock</th>
@@ -118,7 +108,7 @@
               </tr>
             </thead>
             <tbody id="productosBody">
-              <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--gray)">Cargando...</td></tr>
+              <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--gray)">Cargando...</td></tr>
             </tbody>
           </table>
         </div>
@@ -141,10 +131,6 @@
           <div class="form-group">
             <label class="form-label">Instagram Style</label>
             <input class="form-input" id="inputIGStyle" placeholder="jlegacystyle_">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Instagram Tech</label>
-            <input class="form-input" id="inputIGTech" placeholder="jlegacytech_">
           </div>
         </div>
       </div>
@@ -176,18 +162,9 @@
           <input class="form-input" id="inputNombre" placeholder="Ej: Classic Crown" required>
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Tienda *</label>
-            <select class="form-select" id="inputTienda">
-              <option value="style">JLegacy Style</option>
-              <option value="tech">JLegacy Tech</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Precio COP *</label>
-            <input class="form-input" id="inputPrecio" type="number" placeholder="85000" required>
-          </div>
+        <div class="form-group">
+          <label class="form-label">Precio COP *</label>
+          <input class="form-input" id="inputPrecio" type="number" placeholder="85000" required>
         </div>
 
         <div class="form-group">
